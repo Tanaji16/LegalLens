@@ -307,9 +307,28 @@ function bindAuth(handler, keepOpen) {
     ev.preventDefault(); const b = f.querySelector('button[type=submit]'); b.disabled = true; msg.innerHTML = '';
     try { await handler(f); } catch (e) { fail(e); } finally { b.disabled = false; }
   });
+  let googleAuthInProgress = false;
   g?.addEventListener('click', async () => {
+    if (googleAuthInProgress) return;
+    googleAuthInProgress = true;
+    g.disabled = true;
+    const oldHtml = g.innerHTML;
+    g.innerHTML = `<span style="display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;margin-right:8px;vertical-align:middle"></span> Connecting to Google...`;
     msg.innerHTML = '';
-    try { const c = await loginGoogle(); try { await api.saveProfile(c.user.displayName, ''); } catch {} } catch (e) { fail(e); }
+    try {
+      const c = await loginGoogle();
+      try { await api.saveProfile(c.user.displayName, ''); } catch {}
+    } catch (e) {
+      if (e.code === 'auth/cancelled-popup-request' || e.code === 'auth/popup-closed-by-user') {
+        // Popup was dismissed or interrupted - silently reset without error banner
+      } else {
+        fail(e);
+      }
+    } finally {
+      googleAuthInProgress = false;
+      g.disabled = false;
+      g.innerHTML = oldHtml;
+    }
   });
 }
 

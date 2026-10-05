@@ -43,9 +43,11 @@ export function friendlyError(e) {
     'auth/weak-password': 'Password should be at least 6 characters.',
     'auth/invalid-email': 'Please enter a valid email address.',
     'auth/popup-closed-by-user': 'Google sign-in was cancelled.',
+    'auth/cancelled-popup-request': 'Sign-in window was already open. Please click once and wait.',
+    'auth/popup-blocked': 'Sign-in popup was blocked by your browser. Please allow popups for this site.',
     'auth/too-many-requests': 'Too many attempts. Please try again later.',
     'auth/network-request-failed': 'Network error. Check your connection.',
-    'auth/unauthorized-domain': 'This domain is not authorized in Firebase Console > Authentication > Settings.',
+    'auth/unauthorized-domain': 'This domain is not authorized in Firebase Console > Authentication > Settings > Authorized Domains.',
   };
   return m[e.code] || e.message || 'Something went wrong.';
 }
