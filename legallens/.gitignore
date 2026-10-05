@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Environment files (CRITICAL: NEVER COMMIT SECRETS)
+.env
+.env.*
+!.env.example
+
+# Local database & uploaded data
+data/
+*.json.bak
+data/db.json
+
+# Tesseract OCR trained data & logs
+*.traineddata
+*.log
+.system_generated/
+
+# OS and Editor metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
